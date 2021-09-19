@@ -2,6 +2,7 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -38,12 +39,26 @@ void saveText(stringstream buffer, string text) {
     file.close();
 }
 
-// string file(string &file) {
-//     string content = getTextAsString(file);
-// }
+string transformedText(string &input) {
+    const int main = 1097;
+
+    unsigned int seed = main;
+    for (char c : input) {
+    seed = (seed << 7) - seed + c;
+    }
+
+    string seedString = to_string(seed);
+    int seedStringSize = seedString.size();
+
+    string pattern = "0123456789abcdef";
+    int patternSize = pattern.size();
+
+    return seedString;
+}
 
 int main()
 {
     string text = "test.txt";
-    cout << getTextAsString(text);
+    
+    cout << transformedText(text);
 }   
