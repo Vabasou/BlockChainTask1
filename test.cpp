@@ -1,12 +1,17 @@
 #include "libraries.hpp"
 #include "test.hpp"
 #include "hash.hpp"
+#include "sha1.hpp"
+#include "md5.hpp"
+#include "sha256.hpp"
+#include "RNG.hpp"
+
 void sameLineLengthTest() {
     string textDifferent1 = "texts/text1000Different1.txt";
     string textDifferent2 = "texts/text1000Different2.txt";
 
-    cout << "1. Different Text: " << fileToHashCode(textDifferent1) << endl;
-    cout << "2. Different Text: " << fileToHashCode(textDifferent2) << endl;
+    cout << "Different Text: " << fileToHashCode(textDifferent1) << endl;
+    cout << "Different Text: " << fileToHashCode(textDifferent2) << endl;
 }
 
 void filesWithOneSymbol() {
@@ -35,12 +40,133 @@ void hashingLines(string &text) {
     stringstream my_buffer = getText(text);
     stringstream stringBuffer(my_buffer.str());
 
+    ofstream fileOut ("results.txt");
+
+    int fullTime;
     string line;
     int numOfLines = 0;
+    int time[4] = {0, 0, 0, 0};
     while (!stringBuffer.eof()) {
         getline(stringBuffer, line);
         numOfLines++;
-        cout << transformedText(line) << endl;
+
+        auto start = std::chrono::high_resolution_clock::now();
+        transformedText(line);
+        auto end = std::chrono::high_resolution_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        time[0] += elapsed.count();
+
+        auto start1 = std::chrono::high_resolution_clock::now();
+        md5(line);
+        auto end1 = std::chrono::high_resolution_clock::now();
+        auto elapsed1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1);
+        time[1] += elapsed1.count();
+
+        auto start2 = std::chrono::high_resolution_clock::now();
+        sha1(line);
+        auto end2 = std::chrono::high_resolution_clock::now();
+        auto elapsed2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2);
+        time[2] += elapsed2.count();
+
+        auto start3 = std::chrono::high_resolution_clock::now();
+        sha256(line);
+        auto end3 = std::chrono::high_resolution_clock::now();
+        auto elapsed3 = std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3);
+        time[3] += elapsed3.count();
     }
-    
+    cout << "Transformation for this hash took: "<< time[0] << " nano s\n";
+    cout << "Transformation for md5 hash took: "<< time[1] << " nano s\n";
+    cout << "Transformation for sha1 hash took: "<< time[2] << " nano s\n";
+    cout << "Transformation for sha256 hash took: "<< time[3] << " nano s\n";
+}
+
+RandInt rnd{0, 53};
+void fileGenerator() {
+    ofstream fileOut ("results.txt");
+    char symbols[] = "qwertyuiopasdfghjkklzxcvbnm,.1234567890+-_!@#$%^&***()";
+    int numLines = 100000;
+    int numberOfTypes = 4;
+    int boxSize = numLines / numberOfTypes;
+    int lineIndex = 0;
+    int pairSizes[4] = {10, 100, 500, 1000};
+
+    string file;
+
+    for (int i = 0; i < boxSize; i++) {
+        string firstPair;
+        string secondPair;
+        for (int j = 0; j < pairSizes[0]; j++) {
+            firstPair += symbols[rnd()];
+            secondPair += symbols[rnd()];
+        }
+        string string1 = transformedText(firstPair);
+        string string2 = transformedText(secondPair);
+        if (string1 == string2) {
+            cout << "Collision was found in lines: " << firstPair << " and " << secondPair << endl;
+            cout << "Hash code is: " << string1 << " and " << string2 << endl;
+            lineIndex ++;
+            break;
+        }
+        string1.clear();
+        string2.clear();
+    }
+
+    for (int i = 0; i < boxSize; i++) {
+        string firstPair;
+        string secondPair;
+        for (int j = 0; j < pairSizes[1]; j++) {
+            firstPair += symbols[rnd()];
+            secondPair += symbols[rnd()];
+        }
+        string string1 = transformedText(firstPair);
+        string string2 = transformedText(secondPair);
+        if (string1 == string2) {
+            cout << "Collision was found in lines: " << firstPair << " and " << secondPair << endl;
+            cout << "Hash code is: " << string1 << " and " << string2 << endl;
+            lineIndex++;
+            break;
+        }
+        string1.clear();
+        string2.clear();
+    }
+
+    for (int i = 0; i < boxSize; i++) {
+        string firstPair;
+        string secondPair;
+        for (int j = 0; j < pairSizes[2]; j++) {
+            firstPair += symbols[rnd()];
+            secondPair += symbols[rnd()];
+        }
+        string string1 = transformedText(firstPair);
+        string string2 = transformedText(secondPair);
+        if (string1 == string2) {
+            cout << "Collision was found in lines: " << firstPair << " and " << secondPair << endl;
+            cout << "Hash code is: " << string1 << " and " << string2 << endl;
+            lineIndex++;
+            break;
+        }
+        string1.clear();
+        string2.clear();
+    }
+
+    for (int i = 0; i < boxSize; i++) {
+        string firstPair;
+        string secondPair;
+        for (int j = 0; j < pairSizes[3]; j++) {
+            firstPair += symbols[rnd()];
+            secondPair += symbols[rnd()];
+        }
+        string string1 = transformedText(firstPair);
+        string string2 = transformedText(secondPair);
+        if (string1 == string2) {
+            cout << "Collision was found in lines: " << firstPair << " and " << secondPair << endl;
+            cout << "Hash code is: " << string1 << " and " << string2 << endl;
+            lineIndex++;
+            break;
+        }
+        string1.clear();
+        string2.clear();
+    }
+    if (lineIndex == 0)
+        cout << "No collisions were found" << endl;
 }

@@ -5,3 +5,4 @@ void filesWithOneSymbol();
 void filesWithSimilarSymbols(); 
 void fileWithNoSymbols();
 void hashingLines(string &text);
+void fileGenerator();

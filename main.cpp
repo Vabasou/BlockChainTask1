@@ -13,12 +13,13 @@ int main(int argc, char *argv[]) {
         //     //sameLineLengthTest();
         // }
     }
-    string input = "texts/test.txt";
+    string input = "texts/konstitucija.txt";
         int selection;
         cin >> selection;
 
         if (selection == 1) {
-            hashingLines(input);
+            //hashingLines(input);
             //sameLineLengthTest();
+            fileGenerator();
         }
 }

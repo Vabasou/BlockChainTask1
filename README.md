@@ -31,6 +31,6 @@ Secong run:
 1. Different Text: 0afd45c003f32ab675fc209b6b6e299140549b9a4639810c4f3f66f2b1386cd7
 2. Different Text: bbed32e539aee552a9027801f88039b465f09d47144f1b08c7bc8b6c5a6bdaea
 ```
-Conclusion - every line contains 64 symbols in Hexa code, all codes are different, but for the same Input code will always be the same;
+Conclusion - every line contains 64 symbols in Hex code, all codes are different, but for the same Input code will always be the same;
 
 ### 
