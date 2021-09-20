@@ -44,7 +44,7 @@ string transformedText(string &input) {
 
     unsigned int seed = main;
     for (char c : input) {
-    seed = (seed << 7) - seed + c;
+    seed = (seed << 7) - seed + int(c) + 47 * input.length();
     }
 
     string seedString = to_string(seed);
@@ -53,12 +53,26 @@ string transformedText(string &input) {
     string pattern = "0123456789abcdef";
     int patternSize = pattern.size();
 
-    return seedString;
+    string hash;
+    int changingNumber = 31;
+    unsigned int index = main * seed;
+    for (int i = 0; i < 64; i++) {
+        index += seedString[changingNumber % seedStringSize] + i * main / (main & 5);
+        hash += pattern[index % patternSize];
+        changingNumber++;
+    }
+    return hash;
 }
 
+string fileToHashCode(string &text) {
+    string content = getTextAsString(text);
+    string hash = transformedText(content);
+
+    return hash;
+}
 int main()
 {
     string text = "test.txt";
     
-    cout << transformedText(text);
+    //cout << file(text);
 }   
