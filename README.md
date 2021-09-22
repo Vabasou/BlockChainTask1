@@ -109,7 +109,7 @@ Transformation for SHA-256 hash took: 25027 micro s
 
 ### Test to see collisions
 
-To test collisions, were created 100000 pairs, which contained random symbols:
+To test collisions, 100000 pairs were created, which contained random symbols:
 - 25000 pairs had 10 symbols
 - 25000 pairs had 100 symbols
 - 25000 pairs had 500 symbols
@@ -123,3 +123,12 @@ No collisions were found
 
 ---
 
+### Test to see the difference in hex levels
+
+Used 100000 randomly generated pairs, where only one symbol in pair is different.
+
+```
+min difference in hex pair: 50
+max difference in hex pair: 64
+average difference in pair: 94.1837
+```

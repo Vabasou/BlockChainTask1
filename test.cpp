@@ -99,7 +99,7 @@ void hashingLines(string &text) {
         auto end3 = std::chrono::high_resolution_clock::now();
         auto elapsed3 = std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3);
         time[3] += elapsed3.count();
-        
+
         line.clear();
     }
     cout << "Transformation for this hash took: "<< time[0] << " micro s\n";
@@ -203,9 +203,15 @@ void collisionTest() {
 void differenceTest() {
     char symbols[] = "qwertyuiopasdfghjkklzxcvbnm,.1234567890+-_!@#$%^&***()";
 
+    ofstream fr ("results.txt");
+
     int hashSize = 64;
     int numOfPairs = 100000;
     int numOfSymbols = 500-1;
+
+    int hexMaxDiff = 0;
+    int hexMinDiff = hashSize;
+    int hexAllDiff = 0;
 
     for (int i = 0; i < numOfPairs; i++) {
         string bitFirstPair;
@@ -223,6 +229,27 @@ void differenceTest() {
         hexFirstPair = transformedText(bitFirstPair);
         hexSecondPair = transformedText(bitSecongPair);
 
+        int bitDiff = 0;
+        int hexDiff = 0;
+        for (int j = 0; j < hashSize; j++) {
+            if (hexFirstPair[j] != hexSecondPair[j]) {
+                hexDiff++;
+            }
+        }
         
+        if (hexDiff < hexMinDiff) {
+            hexMinDiff = hexDiff;
+        }
+
+        if (hexDiff >hexMaxDiff) {
+            hexMaxDiff = hexDiff;
+        }
+        
+        hexAllDiff += hexDiff;
     }
+
+    double hexAvrgDiff = (double(hexAllDiff) / double(hashSize)) / numOfPairs * 100;
+    cout << "min difference in hex pair: " << hexMinDiff << endl;
+    cout << "max difference in hex pair: " << hexMaxDiff << endl;
+    cout << "average difference in pair: " << hexAvrgDiff << endl;
 }

@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
             collisionTest();
             break;
         case 8:
-            cout << "still not ready" << endl;
+            differenceTest();
             break;        
         default:
             cout << "Incorrect selection" << endl;

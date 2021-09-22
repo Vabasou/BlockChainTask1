@@ -8,4 +8,4 @@ void fileWithNoSymbols();
 void hashingHash(string &text);
 void hashingLines(string &text);
 void collisionTest();
-void bitDifference();
+void differenceTest();
