@@ -2,12 +2,10 @@
 
 #include "libraries.hpp"
 
-stringstream getText(string &text);
+stringstream getText(const string &text);
 
-string getTextAsString(string &text);
+string getTextAsString(const string &text);
 
-void saveText(stringstream buffer, string text);
+string transformedText(const string &input);
 
-string transformedText(string &input);
-
-string fileToHashCode(string &text);
+string fileToHashCode(const string &text);

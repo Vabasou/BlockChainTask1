@@ -1,6 +1,6 @@
 #include "libraries.hpp"
 
-stringstream getText(string &text) {
+stringstream getText(const string &text) {
     std::ifstream file;
     file.open(text);
 
@@ -15,25 +15,13 @@ stringstream getText(string &text) {
     return buffer;
 }
 
-string getTextAsString(string &text) {
+string getTextAsString(const string &text) {
     stringstream buffer = getText(text);
     string content = buffer.str();
     return content;
 }
 
-void saveText(stringstream buffer, string text) {
-    std::ofstream file;
-    file.open(text);
-
-    if(!file) {
-        throw std::runtime_error("File could not be opened");
-    }
-
-    file << buffer.str();
-    file.close();
-}
-
-string transformedText(string &input) {
+string transformedText(const string &input) {
     const int main = 1097;
 
     unsigned int seed = main;
@@ -58,7 +46,7 @@ string transformedText(string &input) {
     return hash;
 }
 
-string fileToHashCode(string &text) {
+string fileToHashCode(const string &text) {
     string content = getTextAsString(text);
     string hash = transformedText(content);
 
