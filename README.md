@@ -130,5 +130,5 @@ Used 100000 randomly generated pairs, where only one symbol in pair is different
 ```
 min difference in hex pair: 50
 max difference in hex pair: 64
-average difference in pair: 94.1837
+average difference in pair: 94.1837%
 ```
